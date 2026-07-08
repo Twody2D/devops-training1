@@ -1,4 +1,5 @@
 #!/bin/bash
+source config.env
 set -e
 
 echo "=========================="
@@ -19,7 +20,7 @@ echo -e "User:\n$CURRENT_USER\n"
 echo -e "IP address:\n$IP_ADDRESS\n"
 echo -e "Memory usage:\n$MEM_USAGE%\n"
 
-if [ "$MEM_USAGE" -gt 80 ]
+if [ "$MEM_USAGE" -gt "$MEMORY_LIMIT" ]
 then
         echo "WARNING: Memory usage is high!"
 else
@@ -29,7 +30,7 @@ echo ""
 
 echo -e "Disk usage:\n$DISK_USAGE%\n"
 
-if [ "$DISK_USAGE" -gt 80 ]
+if [ "$DISK_USAGE" -gt "$DISK_LIMIT" ]
 then
         echo "WARNING: Disk usage is high!"
 else
