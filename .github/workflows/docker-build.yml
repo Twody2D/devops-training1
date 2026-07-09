@@ -29,5 +29,8 @@ jobs:
 
       - name: Push Docker image
         run: |
+          docker tag my-nginx ${{ secrets.DOCKER_USERNAME }}/my-nginx:${{ github.sha }}
           docker tag my-nginx ${{ secrets.DOCKER_USERNAME }}/my-nginx:latest
+
+          docker push ${{ secrets.DOCKER_USERNAME }}/my-nginx:${{ github.sha }}
           docker push ${{ secrets.DOCKER_USERNAME }}/my-nginx:latest
