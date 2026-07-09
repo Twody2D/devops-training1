@@ -17,3 +17,6 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t my-nginx ./docker
+
+      - name: Validate docker compose
+        run: docker compose -f docker/docker-compose.yml config
