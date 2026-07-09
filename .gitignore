@@ -1,3 +1,20 @@
 logs/
 *.log
 config.env
+
+# Docker
+*.log
+
+# Environment files
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# SSH keys
+*.pem
+*.key
+
+# Temporary files
+*.tmp
