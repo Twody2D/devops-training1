@@ -1,0 +1,9 @@
+services:
+  my-nginx:
+    image: twody/my-nginx:latest
+    container_name: my-nginx-prod
+
+    ports:
+      - "8085:80"
+
+    restart: unless-stopped
