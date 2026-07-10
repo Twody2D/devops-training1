@@ -27,17 +27,18 @@ services:
       retries: 3
 
   nginx-balancer:
+    build: ./balancer
+    container_name: nginx-balancer
+
+    ports:
+      - "8091:80"
+
     healthcheck:
       test: ["CMD", "nginx", "-t"]
       interval: 10s
       timeout: 3s
       retries: 3
-    image: nginx:latest
-    container_name: nginx-balancer
-    ports:
-      - "8091:80"
-    volumes:
-      - ./conf/default.conf:/etc/nginx/conf.d/default.conf
+
     depends_on:
       web1:
         condition: service_healthy
