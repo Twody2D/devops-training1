@@ -17,3 +17,8 @@ jobs:
         run: |
           cd nginx/load-balancer-demo
           docker compose up -d --build --remove-orphans
+
+      - name: Check containers
+        run: |
+          cd nginx/load-balancer-demo
+          docker compose ps
