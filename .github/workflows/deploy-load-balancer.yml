@@ -21,9 +21,9 @@ jobs:
         run: |
           cd nginx/load-balancer-demo
 
+          IMAGE_TAG=${{ github.sha }} \
           docker compose \
             --env-file /home/vboxuser/load-balancer.env \
-            --env IMAGE_TAG=${{ github.sha }} \
             pull
 
           IMAGE_TAG=${{ github.sha }} \
@@ -35,6 +35,7 @@ jobs:
         run: |
           cd nginx/load-balancer-demo
 
+          IMAGE_TAG=${{ github.sha }} \
           docker compose \
             --env-file /home/vboxuser/load-balancer.env \
             ps
