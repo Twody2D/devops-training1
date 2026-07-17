@@ -23,11 +23,13 @@ jobs:
 
           docker compose \
             --env-file /home/vboxuser/load-balancer.env \
+            --env IMAGE_TAG=${{ github.sha }} \
             pull
 
+          IMAGE_TAG=${{ github.sha }} \
           docker compose \
             --env-file /home/vboxuser/load-balancer.env \
-            up -d --remove-orphans
+            up -d --force-recreate --remove-orphans
 
       - name: Check containers
         run: |
@@ -36,3 +38,7 @@ jobs:
           docker compose \
             --env-file /home/vboxuser/load-balancer.env \
             ps
+
+      - name: Smoke test
+        run: |
+          curl -f http://localhost:8091
