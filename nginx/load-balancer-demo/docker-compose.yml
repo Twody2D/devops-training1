@@ -1,7 +1,7 @@
 services:
   web1:
     image: ${REGISTRY_USER}/web1:${IMAGE_TAG}
-    container_name: web1
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 10s
@@ -10,7 +10,7 @@ services:
 
   web2:
     image: ${REGISTRY_USER}/web2:${IMAGE_TAG}
-    container_name: web2
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 10s
@@ -19,7 +19,7 @@ services:
 
   web3:
     image: ${REGISTRY_USER}/web3:${IMAGE_TAG}
-    container_name: web3
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 10s
@@ -28,7 +28,7 @@ services:
 
   nginx-balancer:
     image: ${REGISTRY_USER}/nginx-balancer:${IMAGE_TAG}
-    container_name: nginx-balancer
+    restart: unless-stopped
 
     ports:
       - "${NGINX_PORT}:80"
