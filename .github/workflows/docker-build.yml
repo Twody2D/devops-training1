@@ -15,22 +15,43 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build Docker image
-        run: docker build -t my-nginx ./docker
-
-      - name: Validate docker compose
-        run: docker compose -f docker/docker-compose.yml config
-
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Push Docker image
+      - name: Build web1
         run: |
-          docker tag my-nginx ${{ secrets.DOCKER_USERNAME }}/my-nginx:${{ github.sha }}
-          docker tag my-nginx ${{ secrets.DOCKER_USERNAME }}/my-nginx:latest
+          docker build \
+          -t ${{ secrets.DOCKER_USERNAME }}/web1:${{ github.sha }} \
+          ./nginx/load-balancer-demo/web1
 
-          docker push ${{ secrets.DOCKER_USERNAME }}/my-nginx:${{ github.sha }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/my-nginx:latest
+
+      - name: Build web2
+        run: |
+          docker build \
+          -t ${{ secrets.DOCKER_USERNAME }}/web2:${{ github.sha }} \
+          ./nginx/load-balancer-demo/web2
+
+
+      - name: Build web3
+        run: |
+          docker build \
+          -t ${{ secrets.DOCKER_USERNAME }}/web3:${{ github.sha }} \
+          ./nginx/load-balancer-demo/web3
+
+
+      - name: Build nginx-balancer
+        run: |
+          docker build \
+          -t ${{ secrets.DOCKER_USERNAME }}/nginx-balancer:${{ github.sha }} \
+          ./nginx/load-balancer-demo/balancer
+
+
+      - name: Push images
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/web1:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/web2:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/web3:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/nginx-balancer:${{ github.sha }}
