@@ -1,12 +1,17 @@
 name: Deploy nginx load balancer
 
 on:
-  push:
+  workflow_run:
+    workflows:
+      - Docker Build
+    types:
+      - completed
     branches:
       - main
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: self-hosted
 
     steps:
@@ -21,12 +26,12 @@ jobs:
         run: |
           cd nginx/load-balancer-demo
 
-          IMAGE_TAG=${{ github.sha }} \
+          IMAGE_TAG=${{ github.event.workflow_run.head_sha }} \
           docker compose \
             --env-file /home/vboxuser/load-balancer.env \
             pull
 
-          IMAGE_TAG=${{ github.sha }} \
+          IMAGE_TAG=${{ github.event.workflow_run.head_sha }} \
           docker compose \
             --env-file /home/vboxuser/load-balancer.env \
             up -d --force-recreate --remove-orphans
