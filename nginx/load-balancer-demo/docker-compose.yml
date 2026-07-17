@@ -1,6 +1,6 @@
 services:
   web1:
-    build: ./web1
+    image: twody/web1:latest
     container_name: web1
     healthcheck:
       test: ["CMD", "nginx", "-t"]
@@ -9,7 +9,7 @@ services:
       retries: 3
 
   web2:
-    build: ./web2
+    image: twody/web2:latest
     container_name: web2
     healthcheck:
       test: ["CMD", "nginx", "-t"]
@@ -18,7 +18,7 @@ services:
       retries: 3
 
   web3:
-    build: ./web3
+    image: twody/web3:latest
     container_name: web3
     healthcheck:
       test: ["CMD", "nginx", "-t"]
@@ -27,7 +27,7 @@ services:
       retries: 3
 
   nginx-balancer:
-    build: ./balancer
+    image: twody/nginx-balancer:latest
     container_name: nginx-balancer
 
     ports:
