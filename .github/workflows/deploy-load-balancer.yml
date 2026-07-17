@@ -13,12 +13,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Check environment
+        run: |
+          test -f /home/vboxuser/load-balancer.env
+
       - name: Deploy containers
         run: |
           cd nginx/load-balancer-demo
-          docker compose up -d --build --remove-orphans
+
+          docker compose \
+            --env-file /home/vboxuser/load-balancer.env \
+            pull
+
+          docker compose \
+            --env-file /home/vboxuser/load-balancer.env \
+            up -d --remove-orphans
 
       - name: Check containers
         run: |
           cd nginx/load-balancer-demo
-          docker compose ps
+
+          docker compose \
+            --env-file /home/vboxuser/load-balancer.env \
+            ps
